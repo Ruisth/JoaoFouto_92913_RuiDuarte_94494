@@ -15,6 +15,7 @@ public class SpaceInvaders extends JFrame {
 		initUI();
 	}
 
+
 	private void initUI() {
 		board = new Board();
 		add(board);
