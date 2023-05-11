@@ -15,7 +15,6 @@ public class SpaceInvaders extends JFrame {
 		initUI();
 	}
 
-
 	private void initUI() {
 		board = new Board();
 		add(board);
@@ -38,7 +37,7 @@ public class SpaceInvaders extends JFrame {
 			ex.setVisible(true);
 		});
 	}
-	
+
 	public void setController(GameController controller) {
 		board.setController(controller);
 	}
