@@ -97,7 +97,7 @@ public class SimpleFeedforwardNeuralNetwork {
         }
     }
 
-    public double[] forward(double[] d2) {
+    /*public double[] forward(double[] d2) {
         // Compute output given input
         double[] hidden = new double[hiddenDim];
         for (int i = 0; i < hiddenDim; i++) {
@@ -107,6 +107,45 @@ public class SimpleFeedforwardNeuralNetwork {
                 sum += d * inputWeights[j][i];
             }
             hidden[i] = Math.max(0.0, sum + hiddenBiases[i]);
+        }
+        double[] output = new double[outputDim];
+        for (int i = 0; i < outputDim; i++) {
+            double sum = 0.0;
+            for (int j = 0; j < hiddenDim; j++) {
+                sum += hidden[j] * outputWeights[j][i];
+            }
+            output[i] = Math.exp(sum + outputBiases[i]);
+        }
+        double sum = 0.0;
+        for (int i = 0; i < outputDim; i++) {
+            sum += output[i];
+        }
+        for (int i = 0; i < outputDim; i++) {
+            output[i] /= sum;
+        }
+        return output;
+    }*/
+
+    private double sigmoid(double x) {
+        return 1.0 / (1.0 + Math.exp(-x));
+    }
+
+    public double[] forward(double[] input) {
+        // Verify input dimensions
+        if (input.length != inputDim) {
+            throw new IllegalArgumentException("Invalid input dimensions");
+        }
+
+
+        // Compute output given input
+        double[] hidden = new double[hiddenDim];
+        for (int i = 0; i < hiddenDim; i++) {
+            double sum = 0.0;
+            for (int j = 0; j < inputDim; j++) {
+                double d = input[j];
+                sum += d * inputWeights[j][i];
+            }
+            hidden[i] = sigmoid(sum + hiddenBiases[i]);
         }
         double[] output = new double[outputDim];
         for (int i = 0; i < outputDim; i++) {
