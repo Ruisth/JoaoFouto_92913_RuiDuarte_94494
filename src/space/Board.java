@@ -229,7 +229,6 @@ public class Board extends JPanel {
 		if( !shot.isDying()) {
 			state[index++] = (shot.getX() * 1.0) / Commons.BOARD_WIDTH;
 			state[index++] = (shot.getY() * 1.0) / Commons.BOARD_HEIGHT;
-
 			//state[index++] = shot.isDying() ? -1 : 1;
 		}
 
@@ -435,7 +434,7 @@ public class Board extends JPanel {
 
 	public Double getFitness() {
 		double fitness = (double) (getDeaths() * 10000 + getTime());
-		 System.out.println(fitness);
+		// System.out.println(fitness);
 		return fitness;
 	}
 
