@@ -1,5 +1,7 @@
+/*
 package nn;
 
+import java.sql.SQLOutput;
 import java.util.Random;
 
 public class FeedforwardWithBackPropagation {
@@ -109,6 +111,8 @@ public class FeedforwardWithBackPropagation {
     public double[] forward(double[] input) {
         // Verify input dimensions
         if (input.length != inputDim) {
+            System.out.println(input.length);
+            System.out.println(inputDim);
             throw new IllegalArgumentException("Invalid input dimensions");
         }
 
@@ -188,3 +192,4 @@ public class FeedforwardWithBackPropagation {
     }
 
 }
+*/

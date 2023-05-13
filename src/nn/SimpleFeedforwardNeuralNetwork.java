@@ -1,3 +1,4 @@
+/*
 package nn;
 
 import java.util.Random;
@@ -97,7 +98,8 @@ public class SimpleFeedforwardNeuralNetwork {
         }
     }
 
-    /*public double[] forward(double[] d2) {
+    */
+/*public double[] forward(double[] d2) {
         // Compute output given input
         double[] hidden = new double[hiddenDim];
         for (int i = 0; i < hiddenDim; i++) {
@@ -124,7 +126,8 @@ public class SimpleFeedforwardNeuralNetwork {
             output[i] /= sum;
         }
         return output;
-    }*/
+    }*//*
+
 
     private double sigmoid(double x) {
         return 1.0 / (1.0 + Math.exp(-x));
@@ -166,4 +169,4 @@ public class SimpleFeedforwardNeuralNetwork {
     }
 
 
-}
+}*/

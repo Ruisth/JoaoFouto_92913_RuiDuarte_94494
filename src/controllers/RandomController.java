@@ -1,4 +1,4 @@
-package controllers;
+/*package controllers;
 
 import java.util.Random;
 
@@ -23,4 +23,4 @@ public class RandomController implements GameController {
 		return res;
 	}
 
-}
+}*/

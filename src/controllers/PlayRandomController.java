@@ -1,3 +1,4 @@
+/*
 package controllers;
 
 import java.util.Arrays;
@@ -15,18 +16,27 @@ public class PlayRandomController {
 
 		PlayerController controller = new PlayerController();
 
-		// Training data
-		double[][] inputs =  {
-				{0.2, 0.5},   // Example input 1
-				{0.7, 0.3},   // Example input 2
-				// Add more input values as needed
-		};
+		// Create an array with 112 input entries
+		int numSamples = 50;
+		double[][] inputData = new double[numSamples][112];
+		for (int i = 0; i < numSamples; i++) {
+			for (int j = 0; j < 112; j++) {
+				inputData[i][j] = (j + 1) * 0.01; // Example: assign values ranging from 0.01 to 1.12
+			}
+		}
 
-		double[][] targets = {
-				{1.0, 0.0},   // Example target 1
-				{0.0, 1.0},   // Example target 2
-				// Add more target values as needed
-		};
+		// Create an array with 112 target entries
+		double[][] targetData = new double[numSamples][4];
+		for (int i = 0; i < numSamples; i++) {
+			targetData[i][0] = (i % 4 == 0) ? 1 : 0;
+			targetData[i][1] = (i % 4 == 1) ? 1 : 0;
+			targetData[i][2] = (i % 4 == 2) ? 1 : 0;
+			targetData[i][3] = (i % 4 == 3) ? 1 : 0;
+		}
+
+		// Training data
+		double[][] inputs = inputData;
+		double[][] targets = targetData;
 
 		// Train the neural network
 		double learningRate = 0.1;
@@ -50,3 +60,4 @@ public class PlayRandomController {
 		SpaceInvaders.showControllerPlaying(controller,seed);
 	}
 }
+*/
