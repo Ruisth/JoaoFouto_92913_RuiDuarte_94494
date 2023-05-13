@@ -434,9 +434,10 @@ public class Board extends JPanel {
 
 	public Double getFitness() {
 		double fitness = (double) (getDeaths() * 10000 + getTime());
-		// System.out.println(fitness);
+		//System.out.println(fitness);
 		return fitness;
 	}
+
 
 	public void setController(GameController controller) {
 		this.controller = controller;
