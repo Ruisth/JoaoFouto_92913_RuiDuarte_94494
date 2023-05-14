@@ -11,14 +11,16 @@ import static space.Commons.*;
 public class GeneticAlgorithm {
 
     private static final int POPULATION_SIZE = 100;
-    private static final int GENERATIONS = 25;
-    private static final double MUTATION_RATE = 0.1;
+    private static final int GENERATIONS = 100;
+    private static final double MUTATION_RATE = 0.01;
     private static Random random = new Random();
     public static List<NeuralNetwork> population = new ArrayList<>();
+    public static List<NeuralNetwork> bestPop = new ArrayList<>();
     public NeuralEntity[] nePopulation = new NeuralEntity[POPULATION_SIZE];
     public NeuralEntity[] topEntity = new NeuralEntity[25];
     public double fitness;
     public double bestFitness;
+    public NeuralNetwork highestFitnessPlay;
 
 
     public GeneticAlgorithm() {
@@ -39,79 +41,108 @@ public class GeneticAlgorithm {
 
                     NeuralNetwork nn = new NeuralNetwork(STATE_SIZE, STATE_SIZE, NUM_ACTIONS);
                     nn.initializeWeights();
-                    nn.setupBoard();
-                    fitness = nn.getFitness();
+                    Board b = new Board(nn);
+                    b.setSeed(5);
+                    b.run();
+                    nn.setFitness(b.getFitness());
                     population.add(nn);
-                    double[] node = nn.getNode();
+                    population.sort(Comparator.comparing(NeuralNetwork::getFitness).reversed());
+
+
+
+
 
 
                     NeuralEntity ne = new NeuralEntity();
-                    ne.setFitness(fitness);
-                    ne.setNode(node);
+                    ne.setFitness(nn.getFitness());
+                    ne.setNode(nn.getNode());
                     nePopulation[j] = ne;
 
 
+
+
                 }
+                bestPop.add(population.get(0));
                 Arrays.sort(nePopulation);
 
 
 
             }else{
+                // Seleciona os 25 melhores da geração anterior
+                for (int j = 0; j < 25; j++) {
+                    topEntity[j] = nePopulation[j];
+                }
+                Arrays.sort(topEntity);
 
-                //while( i >0 && i < GENERATIONS) {
-                    // Seleciona os 25 melhores da geração anterior
-                    for (int j = 0; j < 25; j++) {
-                        topEntity[j] = nePopulation[j];
+
+                for (int j = 0; j < POPULATION_SIZE; j++) {
+
+                    //Criação da geração seguinte com o melhor pai
+                    double[] parent = topEntity[0].getNode();
+
+
+                    //Criação do filho através da junção dos melhores pais
+                    double[] child = new double[parent.length];
+                    for (int k = 0; k < parent.length; k++) {
+                        child[k] = parent[k];
                     }
 
-
-                    for (int j = 0; j < POPULATION_SIZE; j++) {
-
-                        //Criação da geração seguinte com o melhor pai
-                        double[] parent = topEntity[0].getNode();
+                    mutation(child);
 
 
-                        //Criação do filho através da junção dos melhores pais
-                        double[] child = new double[parent.length];
-                        for (int k = 0; k < parent.length; k++) {
-                            child[k] = parent[k];
-                        }
-
-                        mutation(child);
-
-
-                        //Nova NeuralNetwork com as mutações
-                        NeuralNetwork nn = new NeuralNetwork(STATE_SIZE, STATE_SIZE, NUM_ACTIONS);
-                        nn.setNode(child);
-                        nn.setupBoard();
-                        fitness = nn.getFitness();
-
-                        population.add(nn);
-
-                        NeuralEntity ne = new NeuralEntity();
-                        ne.setFitness(fitness);
-                        ne.setNode(child);
-                        nePopulation[j] = ne;
-                        Arrays.sort(nePopulation);
-
-                        for (int k = 0; k < 25; k++) {
-                            topEntity[k] = nePopulation[k];
-                        }
-                        Arrays.sort(topEntity);
-                        bestFitness = topEntity[0].getFitness();
-                        //population = nePopulation;
+                    //Nova NeuralNetwork com as mutações
+                    NeuralNetwork nn = new NeuralNetwork(STATE_SIZE, STATE_SIZE, NUM_ACTIONS);
+                    nn.setNode(child);
+                    Board b = new Board(nn);
+                    b.setSeed(5);
+                    b.run();
+                    nn.setFitness(b.getFitness());
+                    population.add(nn);
+                    population.sort(Comparator.comparing(NeuralNetwork::getFitness).reversed());
 
 
-                    //}
+
+
+
+
+                    NeuralEntity ne = new NeuralEntity();
+                    ne.setFitness(nn.getFitness());
+                    ne.setNode(nn.getNode());
+                    nePopulation[j] = ne;
+                    Arrays.sort(nePopulation);
+
+                    for (int k = 0; k < 25; k++) {
+                        topEntity[k] = nePopulation[k];
+                    }
+                    Arrays.sort(topEntity);
+
+
                 }
+                NeuralNetwork nn = new NeuralNetwork(STATE_SIZE, STATE_SIZE, NUM_ACTIONS);
+                double[] best = new double[topEntity[0].getNode().length];
+                nn.setNode(best);
+                Board b = new Board(nn);
+                b.setSeed(5);
+                b.run();
+                nn.setFitness(b.getFitness());
+                population.add(nn);
+                population.sort(Comparator.comparing(NeuralNetwork::getFitness).reversed());
+                bestFitness = topEntity[0].getFitness();
+                bestPop.add(population.get(0));
             }
+
         }
-        System.out.println("População ne: " + nePopulation + "\n");
-        System.out.println("TopList: " + topEntity + "\n");
-        System.out.println("Melhor Fitness Score: " + bestFitness);
+
+        bestPop.sort(Comparator.comparing(NeuralNetwork::getFitness).reversed());
+        //System.out.println(bestPop.toString() + "\n");
+        highestFitnessPlay = bestPop.get(0);
+
+
+        System.out.println("Melhor Fitness Score: " + bestFitness + "\n");
+        System.out.println(bestPop.size());
+        //System.out.println(highestFitnessPlay.getFitness());
+        //SpaceInvaders.showControllerPlaying(highestFitnessPlay, 5);
     }
-
-
 
 
     private void mutation(double[] node) {

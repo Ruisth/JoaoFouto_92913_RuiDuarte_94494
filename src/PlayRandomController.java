@@ -1,4 +1,6 @@
 import nn.GeneticAlgorithm;
+import nn.NeuralNetwork;
+import space.SpaceInvaders;
 
 
 public class PlayRandomController {

@@ -3,7 +3,7 @@ package nn;
 import controllers.GameController;
 import space.Board;
 
-public class NeuralNetwork implements GameController {
+public class NeuralNetwork implements GameController, Comparable<NeuralNetwork> {
     private int inputDim;
     private int hiddenDim;
     private int outputDim;
@@ -228,6 +228,7 @@ public class NeuralNetwork implements GameController {
         this.fitness = fitness;
     }
 
+
    @Override
     public String toString() {
         int init = 0;
@@ -238,7 +239,7 @@ public class NeuralNetwork implements GameController {
         double[] outbia = null;
         double[][] outwei = null;
         double fit = 0.0;
-        for (NeuralNetwork nn : GeneticAlgorithm.population) {
+        for (NeuralNetwork nn : GeneticAlgorithm.bestPop) {
             init = nn.getInputDim();
             hid = nn.getHiddenDim();
             out = nn.getOutputDim();
@@ -250,5 +251,10 @@ public class NeuralNetwork implements GameController {
         }
 
         return "Neural Network: " + init + "- Input Dim | " + hid + "- Hidden Dim | " + out + "- Output Dim | " + inwei + "- Input Weights | " + hidbia + "- Hidden Biases | " + outbia + "- Output Biases | " + outwei + "- Output Weights | " + fit + "- Fitness | \n";
+    }
+
+    @Override
+    public int compareTo(NeuralNetwork other) {
+        return Double.compare(other.getFitness(), this.getFitness());
     }
 }

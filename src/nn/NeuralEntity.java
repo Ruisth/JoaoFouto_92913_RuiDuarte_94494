@@ -18,7 +18,7 @@ public class NeuralEntity implements Comparable<NeuralEntity> {
 
     @Override
     public int compareTo(NeuralEntity other) {
-        return Double.compare(other.getFitness(), getFitness());
+        return Double.compare(other.getFitness(), this.getFitness());
     }
 
 
@@ -40,7 +40,7 @@ public class NeuralEntity implements Comparable<NeuralEntity> {
         double[] outbia = null;
         double[][] outwei = null;
         double fit = 0.0;
-        for (NeuralNetwork nn : GeneticAlgorithm.population) {
+        for (NeuralNetwork nn : GeneticAlgorithm.bestPop) {
             init = nn.getInputDim();
             hid = nn.getHiddenDim();
             out = nn.getOutputDim();
